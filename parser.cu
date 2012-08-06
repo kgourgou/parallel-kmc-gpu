@@ -81,9 +81,11 @@ while(1){
 		        }
 		        else if(choice == Strang){
 		        	args->split = Strang;
+		        	strcpy(args->splitName, "Strang");
 		        }
 		        else if(choice == Random){
 		        	args->split = Random;
+		        	strcpy(args->splitName, "Random");
 		        }
 		        else{
 		        	printf("ERROR : parser : unrecognized value given for the splitting\n");
