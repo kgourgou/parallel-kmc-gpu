@@ -92,9 +92,11 @@ void benchError(int* lat, int* devLat, int N,float deltaT,
 			//Actual computation
 			 meanCov += fractionalStep(lat,devLat,steps, react, devStates, deltaT, N, cov, devCov,args);
 		}
+
+	    meanCov = meanCov/nReals;
 		
-		fprintf(results,"%d\t\t%f\n",args.offSet, fabs(meanCov/nReals - ssaCov));
-		printf("%d\t%f\t%f\t%f\t%1.2e\n",args.offSet,meanCov/nReals,ssaCov, exactMagnetization(react),fabs(meanCov/nReals-exactMagnetization(react)));
+		fprintf(results,"%d\t\t%f\n",args.offSet, meanCov, ssaCov,fabs(meanCov - ssaCov));
+		printf("%d\t%f\t%f\t%f\t%1.2e\n",args.offSet,meanCov,ssaCov, exactMagnetization(react),fabs(meanCov-exactMagnetization(react)));
 		 
 	}
 
@@ -104,7 +106,7 @@ void benchError(int* lat, int* devLat, int N,float deltaT,
 //===========================================================
 /* 
 
-	Benchmark for different DT 
+	Benchmark for different DT and constant h
 
 */
 
@@ -156,6 +158,7 @@ void benchDt(int* lat, int* devLat, int N,float deltaT,
 		}
 		 
 		meanCov = meanCov/nReals;
+		
 		fprintf(results,"%f\t%f\n",args.deltaT,meanCov,exactSolution,fabs(meanCov-exactSolution));
 		printf("%f\t%f\t%f\t%f\t%1.2e\n",args.deltaT, meanCov, ssaCov,
 			exactSolution,fabs(meanCov-exactSolution));
@@ -168,6 +171,54 @@ void benchDt(int* lat, int* devLat, int N,float deltaT,
 
 }
 
+//============================================================
+
+/* 
+	Comparison between exact solution and approximate solution while changing both
+    Dt and h (potential).
+
+    */
+
+
+void benchDt2(int* lat, int* devLat, int N,float deltaT,
+                int *cov, int*devCov, reactData react, FILE* results, curandState *devStates, arguments args){
+
+
+	int j,i;	
+	float meanCov;
+	float exactSolution;
+	
+
+	const int steps = (int)(args.finalT/deltaT);
+	const int DTsteps      = 3;  // Different Dt to try 
+	const float largestDt  = 3.0; 
+	const float smallestDt = 1/2.0; 
+	
+	
+	printf("\n    Dt\t\tDevCov\t\tExact solution\tError\n");
+	
+	
+	for(j = DTsteps; j > 0; j--){
+
+		args.deltaT = j * (largestDt - smallestDt)/DTsteps + smallestDt;
+		
+		for(i = 0; i < STEPS_IN_H; i++){
+			react.h = i * 2.0/(STEPS_IN_H-1);
+			//Burning time
+			 fractionalStep(lat,devLat,BURNING, react, devStates, deltaT, N, cov, devCov, args);
+		 
+			//Actual computation
+		 	meanCov = fractionalStep(lat,devLat,steps,
+							react, devStates, deltaT, N, cov, devCov,args);
+
+		 	exactSolution = exactMagnetization(react);
+		 	fprintf(results,"%f\t%f\t%f\t%f\t%f\n",args.deltaT,react.h,meanCov,exactSolution,fabs(meanCov-exactSolution));
+		    printf("%f\t%f\t%f\t%1.2e\n",args.deltaT, meanCov,exactSolution,fabs(meanCov-exactSolution));
+		}
+		 
+	}
+
+}
 
 
 

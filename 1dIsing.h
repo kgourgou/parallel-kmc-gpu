@@ -60,12 +60,15 @@ float fractionalStep(int*Lat, int* devLat,int steps, reactData react,
 float exactMagnetization(reactData react);
 void parser(int argc, char* argv[], arguments* args);
 
-//================ Benchmarks
+//================ Benchmarks : for explanations look in bench.cu
+
 void benchH(int* lat, int* devLat, int N,float deltaT,int *cov, int*devCov, 
 		reactData react, FILE*  results,curandState *devStates, arguments args);
 void benchError(int* lat, int* devLat, int N,float deltaT, 
 		int *cov, int*devCov, reactData react, FILE* results, curandState *devStates,arguments args);
 void benchDt(int* lat, int* devLat, int N,float deltaT,
+                int *cov, int*devCov, reactData react, FILE* results, curandState *devStates, arguments args);
+void benchDt2(int* lat, int* devLat, int N,float deltaT,
                 int *cov, int*devCov, reactData react, FILE* results, curandState *devStates, arguments args);
 
 //================ Splittings

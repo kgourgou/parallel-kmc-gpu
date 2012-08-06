@@ -43,8 +43,7 @@ int NBLOCKS  = args.blocks;
 int *lat = (int*)malloc(N * sizeof(int)); // local lattice
 int *cov; //= (int*)malloc(NBLOCKS*sizeof(int));
 
-int *devLat, i, j, *devCov;
-float meanCov;
+int *devLat, i, *devCov;
 float time;
 
 cudaEvent_t start, stop;
@@ -86,7 +85,8 @@ FILE *results = NULL;
 	react.ca = 1.0; 
 //==============================================
 
-printf(" This program can take arguments from the command line.\n Use --help to see the available options.\n");
+if(argc < 2)
+	printf(" This program can take arguments from the command line.\n Use --help to see the available options.\n");
 
 
 float deltaT = args.deltaT;
@@ -161,14 +161,13 @@ printf("==============================================\n\n");
 	//benchH(lat, devLat, N, deltaT, cov,  devCov, react, results, devStates, args);
 
 	//benchError(lat, devLat, N, deltaT, cov,  devCov, react, results, devStates, args);
-	benchDt(lat, devLat, N, deltaT, cov,  devCov, react, results, devStates, args);
-
-
+	//benchDt(lat, devLat, N, deltaT, cov,  devCov, react, results, devStates, args);
+	benchDt2(lat, devLat, N, deltaT, cov,  devCov, react, results, devStates, args);
+    
     cudaEventRecord(stop, 0);
 	cudaEventSynchronize(stop);
-
 	cudaEventElapsedTime(&time, start, stop);
-	time = time/(1000*60);
+	time = time/(1000*60); // Translate from millisec to minutes
 	printf("\n Execution time : %f mins\n",time);
 
 

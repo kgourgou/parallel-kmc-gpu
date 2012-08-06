@@ -25,12 +25,12 @@ struct option longOpts[] ={ // Long options
  {"time"   , required_argument, 0, 'T'},
  {"deltaT" , required_argument, 0, 'd'},
  {"help"   , no_argument      , 0, 'h'},
- {"split"  ,required_argument , 0, 's'},
+ {"split"  , required_argument, 0, 's'},
  {   0	   ,         0        , 0,  0}};
 
 //======================= Help  text =========================
 
- char* help = "============================================================\n\t\t\tFractional step 1D\n============================================================\n\nAvailable options : \n\n--threads = Number of threads per block to use (short : -t)\n--blocks  = Number of blocks to use (short -b)\n--offSet  = Size of sublattice to use per thread (short -o)\n--time    = Final time to reach (short -T)\n--deltaT  = deltaT with which to progress (short --d)\n\nExample:\n\n ./a.out -t 10 --d 2\n will run the program with 10 threads,\n 1 block, 4x4 sublattices and a Dt of 2.0."; 
+ char* help = "============================================================\n\t\t\tFractional step 1D\n============================================================\n\nAvailable options : \n\n--threads = Number of threads per block to use (short : -t)\n--blocks  = Number of blocks to use (short -b)\n--offSet  = Size of sublattice to use per thread (short -o)\n--time    = Final time to reach (short -T)\n--deltaT  = deltaT with which to progress (short --d)\n--split = Input 0 for Lie splitting, 1 for Strang and 2 for Random (short -s)\n\nExample:\n\n ./a.out -t 10 --d 2\n will run the program with 10 threads,\n 1 block, 4x4 sublattices and a Dt of 2.0."; 
  
 
 //==================== Default values ==============================
@@ -41,6 +41,7 @@ struct option longOpts[] ={ // Long options
 	args->finalT  = 1000;
 	args->deltaT  = 1.0;
 	args->split   = Lie; 
+	strcpy(args->splitName, "Lie");
 
 
 //===================================================

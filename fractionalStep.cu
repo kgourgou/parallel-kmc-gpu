@@ -18,15 +18,10 @@ size_t sharedMem = args.threads * sizeof(int); // Shared memory size
 
 for(i = 0; i < steps; i++){
 
-		   // Different splittings 
-		       //splitLie(devLat, react, devStates, devCov, args);
-		      //splitStrang(devLat, react, devStates, devCov, args);
-	             //splitRandom(devLat, react, devStates, devCov, args);
-				chooseSplit(devLat,react,devStates,devCov,args);
-	         //===============================================
-	
-		// Calculate the mean coverage of the last (STEPS_IN_TIME - BURNING) samples	
-	           calcCov<<<args.blocks, args.threads, sharedMem>>>(devLat, args.offSet, devCov);                
+			chooseSplit(devLat,react,devStates,devCov,args);
+	       	
+			// Calculate the mean coverage of the last (STEPS_IN_TIME - BURNING) samples	
+	        calcCov<<<args.blocks, args.threads, sharedMem>>>(devLat, args.offSet, devCov);                
 	}	
 	        	        
 	/*cudaMemcpy(lat, devLat, N*sizeof(int),DtoH);
