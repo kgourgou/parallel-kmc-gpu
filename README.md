@@ -9,13 +9,14 @@ multiple GPUs and, up to my benchmarks at least, it offers a modest speed-up
 even though it is un-optimized. It is **not** production-level code; at this
 point, it can only simulate an 1D Ising system. I only share it
 as a proof of concept. I have since moved on to implementing code
-in [SPPARKS](); see also [2]. 
+in [SPPARKS](http://spparks.sandia.gov); see also [2]. 
 
 Because it was written with the "fractional-step" point-of-view in mind (see [1,3]), i.e.,
 that an asynchronous parallel kMC algorithm is really defined by the lattice
 decomposition + computation schedule, I put a lot of focus into making schedules
 easy to change. This makes the implementation of the Strang splitting a
-relatively simple addition.  
+relatively simple addition. I've been writing code to replicate this functionality
+in SPPARKS.   
 
 ## References
 1. Arampatzis, G., Katsoulakis, M.A., Plecháč, P., Taufer, M. and Xu, L., 2012.
