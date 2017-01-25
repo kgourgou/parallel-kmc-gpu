@@ -84,7 +84,7 @@ void splitLie(int* devLat, reactData react, curandState *devStates, int *devCov,
 	int N = 2 * args.offSet * args.blocks * args.threads; // N : Size of the system
 	float deltaT = args.deltaT;
 	
-			L<<<nblocks, nthreads>>>(devLat, N, deltaT, offSet,0, react,devStates,devCov);
+      			L<<<nblocks, nthreads>>>(devLat, N, deltaT, offSet,0, react,devStates,devCov);
 		        L<<<nblocks, nthreads>>>(devLat, N, deltaT, offSet,1, react,devStates,devCov);
 		
 }
@@ -100,7 +100,7 @@ void splitStrang(int* devLat, reactData react, curandState *devStates, int *devC
 
 
 			L<<<nblocks, nthreads>>>(devLat, N, deltaT/2.0, offSet, 1,react, devStates, devCov);
-		        L<<<nblocks, nthreads>>>(devLat, N, deltaT,     offSet, 0,react, devStates, devCov);
+		  L<<<nblocks, nthreads>>>(devLat, N, deltaT,     offSet, 0,react, devStates, devCov);
 			L<<<nblocks, nthreads>>>(devLat, N, deltaT/2.0, offSet, 1,react, devStates, devCov);
 
 }
