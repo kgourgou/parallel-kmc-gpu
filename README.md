@@ -6,7 +6,7 @@ of an NVidia GPU.
 
 This code contains my initial experiments to accomplish this. It supports
 multiple GPUs and, up to my benchmarks at least, it offers a modest speed-up
-even though it is un-optimized. It is **not** production-level code; at this
+even though it is unoptimized. It is **not** production-level code; at this
 point, it can only simulate an 1D Ising system (I also have a version for 2D). It's been a while since I wrote it, 
 so I can't guarantee it will run on your system. I only share it
 as a proof of concept. I have since moved on to implementing code
